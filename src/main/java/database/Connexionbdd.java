@@ -18,7 +18,7 @@ public class Connexionbdd {
         }
         try {
             //obtention de la connexion
-            connection= DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3307/equida","root","");
+            connection = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3307/equida","root","");
             System.out.println("Connexion OK");
 
         } catch (SQLException e) {

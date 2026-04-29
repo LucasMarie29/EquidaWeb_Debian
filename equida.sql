@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3307
--- Généré le : mer. 01 oct. 2025 à 06:39
+-- Généré le : mer. 29 avr. 2026 à 08:59
 -- Version du serveur : 11.3.2-MariaDB
 -- Version de PHP : 8.2.18
 
@@ -93,18 +93,24 @@ CREATE TABLE IF NOT EXISTS `cheval` (
   KEY `race_id` (`race_id`),
   KEY `fk_pere` (`pere_id`),
   KEY `fk_mere` (`mere_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Déchargement des données de la table `cheval`
 --
 
 INSERT INTO `cheval` (`id`, `nom`, `sexe`, `date_naissance`, `codeSire`, `taille`, `poids`, `vendeur`, `race_id`, `pere_id`, `mere_id`) VALUES
-(1, 'Éclair', 'M', '2022-03-15', '', '', '', 1, 1, 1, 3),
-(2, 'Foudre', 'F', '2021-05-20', '', '', '', 2, 2, 2, 3),
+(1, 'Éclair', 'M', '2022-03-15', '', '', '', 1, 1, 2, 3),
+(2, 'Foudre', 'F', '2021-05-20', '', '', '', 2, 2, 4, 3),
 (3, 'Vent', 'M', '2020-01-01', '', '', '', 3, 3, 4, 1),
 (4, 'Neige', 'F', '2019-07-07', '', '', '', 4, 4, 5, 2),
-(5, 'Soleil', 'M', '2023-02-22', '', '', '', 5, 5, 2, 1);
+(5, 'Soleil', 'M', '2023-02-22', '', '', '', 5, 5, 2, 1),
+(6, 'test', NULL, '2025-10-09', NULL, NULL, NULL, NULL, 4, NULL, NULL),
+(7, 'test', NULL, '2025-10-09', NULL, NULL, NULL, NULL, 4, NULL, NULL),
+(8, 'test', NULL, '2025-10-08', NULL, NULL, NULL, NULL, 4, NULL, NULL),
+(9, 'test2', NULL, '2025-10-08', NULL, NULL, NULL, NULL, 4, NULL, NULL),
+(10, 'test2', NULL, '2025-10-08', NULL, NULL, NULL, NULL, 4, NULL, NULL),
+(11, 'test2', NULL, '2025-10-08', NULL, NULL, NULL, NULL, 4, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -117,6 +123,7 @@ CREATE TABLE IF NOT EXISTS `chevalcourse` (
   `cheval_id` int(11) NOT NULL,
   `course_id` int(11) NOT NULL,
   `position` int(11) NOT NULL,
+  `temps` time(6) DEFAULT NULL,
   PRIMARY KEY (`cheval_id`,`course_id`),
   KEY `course_id` (`course_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
@@ -125,12 +132,12 @@ CREATE TABLE IF NOT EXISTS `chevalcourse` (
 -- Déchargement des données de la table `chevalcourse`
 --
 
-INSERT INTO `chevalcourse` (`cheval_id`, `course_id`, `position`) VALUES
-(1, 1, 0),
-(2, 2, 0),
-(3, 3, 0),
-(4, 4, 0),
-(5, 5, 0);
+INSERT INTO `chevalcourse` (`cheval_id`, `course_id`, `position`, `temps`) VALUES
+(1, 1, 1, '09:50:35.000000'),
+(2, 2, 3, '09:50:35.000000'),
+(3, 3, 4, '09:50:35.000000'),
+(4, 4, 5, '09:50:35.000000'),
+(5, 5, 2, '09:50:35.000000');
 
 -- --------------------------------------------------------
 
@@ -332,7 +339,7 @@ INSERT INTO `race` (`id`, `nom`, `libelle`) VALUES
 DROP TABLE IF EXISTS `vendeur`;
 CREATE TABLE IF NOT EXISTS `vendeur` (
   `id` int(11) NOT NULL,
-  `ca` decimal(15,2) DEFAULT NULL,
+  `nom` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
@@ -340,12 +347,12 @@ CREATE TABLE IF NOT EXISTS `vendeur` (
 -- Déchargement des données de la table `vendeur`
 --
 
-INSERT INTO `vendeur` (`id`, `ca`) VALUES
-(1, 100000.00),
-(2, 85000.50),
-(3, 92000.75),
-(4, 76000.20),
-(5, 110000.00);
+INSERT INTO `vendeur` (`id`, `nom`) VALUES
+(1, 'Lucas'),
+(2, 'Marie'),
+(3, 'Marc'),
+(4, 'Tom'),
+(5, 'June');
 
 -- --------------------------------------------------------
 

@@ -8,8 +8,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class DaoRace {
-    static PreparedStatement requeteSql = null;
-    static ResultSet resultatRequete = null;
 
     /**
      * Récupère toutes les races présentes dans la base de données
@@ -18,9 +16,11 @@ public class DaoRace {
      */
     public static ArrayList<Race> getLesRaces(Connection cnx) {
         ArrayList<Race> lesRaces = new ArrayList<Race>();
+        PreparedStatement requeteSql = null;
+        ResultSet resultatRequete = null;
         try {
             requeteSql = cnx.prepareStatement(
-                "SELECT id, nom FROM race ORDER BY nom"
+                "SELECT id, libelle as nom FROM race ORDER BY libelle"
             );
             resultatRequete = requeteSql.executeQuery();
             while (resultatRequete.next()) {
@@ -44,9 +44,11 @@ public class DaoRace {
      */
     public static Race getRaceById(Connection cnx, int id) {
         Race race = null;
+        PreparedStatement requeteSql = null;
+        ResultSet resultatRequete = null;
         try {
             requeteSql = cnx.prepareStatement(
-                "SELECT id, nom FROM race WHERE id = ?"
+                "SELECT id, libelle as nom FROM race WHERE id = ?"
             );
             requeteSql.setInt(1, id);
             resultatRequete = requeteSql.executeQuery();

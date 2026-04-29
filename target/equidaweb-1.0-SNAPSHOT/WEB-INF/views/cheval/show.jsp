@@ -86,14 +86,14 @@
                             <div class="row detail-row">
                                 <div class="col-sm-3 detail-label">Père</div>
                                 <div class="col-sm-9 detail-value">
-                                    <%= leCheval.getChevalPere().getNom() != null ? leCheval.getChevalPere().getNom() : "Non renseignée" %>
+                                    <%= leCheval.getChevalPere() != null ? leCheval.getChevalPere().getNom() : "Non renseignée" %>
                                 </div>
                             </div>    
                                 
                             <div class="row detail-row">
                                 <div class="col-sm-3 detail-label">Mère</div>
                                 <div class="col-sm-9 detail-value">
-                                    <%= leCheval.getChevalMere().getNom() != null ? leCheval.getChevalMere().getNom() : "Non renseignée" %>
+                                    <%= leCheval.getChevalMere() != null ? leCheval.getChevalMere().getNom() : "Non renseignée" %>
                                 </div>
                             </div>  
                                 

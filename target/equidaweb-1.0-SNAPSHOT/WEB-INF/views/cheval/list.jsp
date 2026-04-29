@@ -57,13 +57,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <% for (Cheval c : lesChevaux) { %>
+                        <% if (lesChevaux != null) { for (Cheval c : lesChevaux) { %>
                             <tr>
                                 <td><%= c.getId() %></td>
                                 <td><a href="<%= request.getContextPath() %>/cheval-servlet/show?idCheval=<%= c.getId() %>"><%= c.getNom() %></a></td>
-                                <td><%= c.getRace().getNom() %></td>
+                                <td><%= c.getRace() != null ? c.getRace().getNom() : "" %></td>
                             </tr>
-                        <% } %>
+                        <% } } %>
                     </tbody>
                 </table>
             </div>
