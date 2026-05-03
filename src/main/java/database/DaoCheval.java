@@ -92,14 +92,18 @@ public class DaoCheval {
         Cheval cheval = new Cheval();
         try {
             requeteSql = cnx.prepareStatement(
-                    "SELECT c.id as c_id, c.nom as c_nom, " +
+                    "SELECT c.id as c_id, c.nom as c_nom, c.sexe, c.codeSire, c.taille, c.poids, " +
                             "cpere.id as cpere_id, cpere.nom as cpere_nom, " +
                             "cmere.id as cmere_id, cmere.nom as cmere_nom, " +
-                            "r.nom as r_nom, c.date_naissance as date_naissance " +
+                            "r.id as r_id, r.nom as r_nom, " +
+                            "c.date_naissance as date_naissance, " +
+                            "cl.nom as vendeur_nom, v.id as vendeur_id " +
                             "FROM cheval c " +
-                            "LEFT JOIN race r ON c.race_id = r.id " +
+                            "INNER JOIN race r ON c.race_id = r.id " +
                             "LEFT JOIN cheval cpere ON c.pere_id = cpere.id " +
                             "LEFT JOIN cheval cmere ON c.mere_id = cmere.id " +
+                            "LEFT JOIN vendeur v ON c.vendeur = v.id " +
+                            "LEFT JOIN client cl ON v.id = cl.id " +
                             "WHERE c.id = ?"
             );
             requeteSql.setInt(1, idCheval);
@@ -109,6 +113,10 @@ public class DaoCheval {
                 cheval = new Cheval();
                 cheval.setId(resultatRequete.getInt("c_id"));
                 cheval.setNom(resultatRequete.getString("c_nom"));
+                cheval.setSexe(resultatRequete.getString("sexe"));
+                cheval.setCodeSire(resultatRequete.getString("codeSire"));
+                cheval.setTaille(resultatRequete.getString("taille"));
+                cheval.setPoids(resultatRequete.getString("poids"));
 
                 java.sql.Date sqlDate = resultatRequete.getDate("date_naissance");
                 if (sqlDate != null) {
@@ -124,9 +132,15 @@ public class DaoCheval {
                 mere.setId(resultatRequete.getInt("cmere_id"));
                 mere.setNom(resultatRequete.getString("cmere_nom"));
                 cheval.setChevalMere(mere);
+
                 
                 Race race = new Race();
                 race.setNom(resultatRequete.getString("r_nom"));
+
+                int vendeurId = resultatRequete.getInt("vendeur_id");
+                if (!resultatRequete.wasNull()) {
+                    cheval.setVendeur(vendeurId);
+                }
                 
                 cheval.setRace(race);
             }
@@ -174,15 +188,11 @@ public class DaoCheval {
             requeteSql.setNull(9, java.sql.Types.INTEGER);
         }
 
-// Mère
         if (cheval.getChevalMere() != null) {
             requeteSql.setInt(10, cheval.getChevalMere().getId());
         } else {
             requeteSql.setNull(10, java.sql.Types.INTEGER);
         }
-        
-        
-        
         
         int result = requeteSql.executeUpdate();
         
@@ -202,4 +212,63 @@ public class DaoCheval {
         return false;
     }
 }
+
+    public static boolean modifierCheval(Connection cnx, Cheval cheval) {
+        try {
+            requeteSql = cnx.prepareStatement(
+                    "UPDATE cheval SET nom=?, sexe=?, codeSire=?, taille=?, poids=?, " +
+                            "date_naissance=?, race_id=?, pere_id=?, mere_id=?, vendeur=? WHERE id=?"
+            );
+            requeteSql.setString(1, cheval.getNom());
+            requeteSql.setString(2, cheval.getSexe());
+            requeteSql.setString(3, cheval.getCodeSire());
+            requeteSql.setString(4, cheval.getTaille());
+            requeteSql.setString(5, cheval.getPoids());
+
+            if (cheval.getDateNaissance() != null) {
+                requeteSql.setDate(6, java.sql.Date.valueOf(cheval.getDateNaissance()));
+            } else {
+                requeteSql.setNull(6, java.sql.Types.DATE);
+            }
+
+            requeteSql.setInt(7, cheval.getRace().getId());
+
+            if (cheval.getChevalPere() != null) {
+                requeteSql.setInt(8, cheval.getChevalPere().getId());
+            } else {
+                requeteSql.setNull(8, java.sql.Types.INTEGER);
+            }
+
+            if (cheval.getChevalMere() != null) {
+                requeteSql.setInt(9, cheval.getChevalMere().getId());
+            } else {
+                requeteSql.setNull(9, java.sql.Types.INTEGER);
+            }
+
+            if (cheval.getVendeur() != 0) {
+                requeteSql.setInt(10, cheval.getVendeur());
+            } else {
+                requeteSql.setNull(10, java.sql.Types.INTEGER);
+            }
+
+            requeteSql.setInt(11, cheval.getId());
+
+            return requeteSql.executeUpdate() == 1;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean supprimerCheval(Connection cnx, int idCheval) {
+        try {
+            requeteSql = cnx.prepareStatement("DELETE FROM cheval WHERE id=?");
+            requeteSql.setInt(1, idCheval);
+            return requeteSql.executeUpdate() == 1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

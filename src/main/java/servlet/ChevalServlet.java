@@ -53,6 +53,8 @@ public class ChevalServlet extends HttpServlet {
                     request.setAttribute("pLeCheval", leCheval);
                     System.out.println("taille liste = " + lesChevauxCourses.size());
                     request.setAttribute("pLesCoursesChevaux", lesChevauxCourses);
+                    ArrayList<Vendeur> lesVendeurs = DaoVendeur.getLesVendeurs(cnx);
+                    request.setAttribute("pLesVendeurs", lesVendeurs);
                     
                     this.getServletContext().getRequestDispatcher("/WEB-INF/views/cheval/show.jsp").forward(request, response);
                 } else {
@@ -76,6 +78,29 @@ public class ChevalServlet extends HttpServlet {
             this.getServletContext().getRequestDispatcher("/WEB-INF/views/cheval/add.jsp").forward(request, response);
         }
 
+        if ("/edit".equals(path)) {
+            try {
+                int idCheval = Integer.parseInt(request.getParameter("idCheval"));
+                Cheval leCheval = DaoCheval.getLeCheval(cnx, idCheval);
+                request.setAttribute("pLeCheval", leCheval);
+                request.setAttribute("pLesRaces", DaoRace.getLesRaces(cnx));
+                request.setAttribute("pLesChevaux", DaoCheval.getLesChevaux(cnx));
+                request.setAttribute("pLesVendeurs", DaoVendeur.getLesVendeurs(cnx));
+                this.getServletContext().getRequestDispatcher("/WEB-INF/views/cheval/edit.jsp").forward(request, response);
+            } catch (NumberFormatException e) {
+                response.sendRedirect(request.getContextPath() + "/cheval-servlet/list");
+            }
+        }
+
+        if ("/delete".equals(path)) {
+            try {
+                int idCheval = Integer.parseInt(request.getParameter("idCheval"));
+                DaoCheval.supprimerCheval(cnx, idCheval);
+                response.sendRedirect(request.getContextPath() + "/cheval-servlet/list");
+            } catch (NumberFormatException e) {
+                response.sendRedirect(request.getContextPath() + "/cheval-servlet/list");
+            }
+        }
 
     }
 
@@ -161,6 +186,63 @@ public class ChevalServlet extends HttpServlet {
                 request.setAttribute("pLesChevaux", DaoCheval.getLesChevaux(cnx));
                 request.setAttribute("pLesVendeurs", DaoVendeur.getLesVendeurs(cnx)); // ✅
                 this.getServletContext().getRequestDispatcher("/WEB-INF/views/cheval/add.jsp").forward(request, response);
+            }
+        }
+
+        if ("/edit".equals(path)) {
+            try {
+                int idCheval = Integer.parseInt(request.getParameter("idCheval"));
+                String nom = request.getParameter("nom");
+                String sexe = request.getParameter("sexe");
+                String codeSire = request.getParameter("codeSire");
+                String taille = request.getParameter("taille");
+                String poids = request.getParameter("poids");
+                String dateNaissanceStr = request.getParameter("dateNaissance");
+                int raceId = Integer.parseInt(request.getParameter("race"));
+
+                Cheval cheval = new Cheval();
+                cheval.setId(idCheval);
+                cheval.setNom(nom);
+                cheval.setSexe(sexe);
+                cheval.setCodeSire(codeSire);
+                cheval.setTaille(taille);
+                cheval.setPoids(poids);
+
+                if (dateNaissanceStr != null && !dateNaissanceStr.isEmpty()) {
+                    cheval.setDateNaissance(LocalDate.parse(dateNaissanceStr));
+                }
+
+                String vendeurIdStr = request.getParameter("vendeur");
+                if (vendeurIdStr != null && !vendeurIdStr.isEmpty()) {
+                    cheval.setVendeur(Integer.parseInt(vendeurIdStr));
+                }
+
+                String pereIdStr = request.getParameter("pere_id");
+                if (pereIdStr != null && !pereIdStr.isEmpty()) {
+                    Cheval pere = new Cheval();
+                    pere.setId(Integer.parseInt(pereIdStr));
+                    cheval.setChevalPere(pere);
+                }
+
+                String mereIdStr = request.getParameter("mere_id");
+                if (mereIdStr != null && !mereIdStr.isEmpty()) {
+                    Cheval mere = new Cheval();
+                    mere.setId(Integer.parseInt(mereIdStr));
+                    cheval.setChevalMere(mere);
+                }
+
+                Race race = DaoRace.getRaceById(cnx, raceId);
+                cheval.setRace(race);
+
+                if (DaoCheval.modifierCheval(cnx, cheval)) {
+                    response.sendRedirect(request.getContextPath() + "/cheval-servlet/show?idCheval=" + idCheval);
+                } else {
+                    throw new Exception("Erreur lors de la modification");
+                }
+
+            } catch (Exception e) {
+                request.setAttribute("message", "Erreur : " + e.getMessage());
+                response.sendRedirect(request.getContextPath() + "/cheval-servlet/list");
             }
         }
     }
