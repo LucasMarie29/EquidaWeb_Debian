@@ -9,14 +9,14 @@ import java.util.logging.Logger;
 
 import database.DaoCheval;
 import database.DaoRace;
+import database.DaoVendeur;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import model.Cheval;
-import model.Race;
+import model.*;
+
 import java.time.LocalDate;
-import model.ChevalCourse;
 
 @WebServlet(name = "chevalServlet", value = "/cheval-servlet/*")
 public class ChevalServlet extends HttpServlet {
@@ -68,8 +68,10 @@ public class ChevalServlet extends HttpServlet {
         if ("/add".equals(path)) {
             ArrayList<Race> lesRaces = DaoRace.getLesRaces(cnx);
             ArrayList<Cheval> lesChevaux = DaoCheval.getLesChevaux(cnx);
+            ArrayList<Vendeur> lesVendeurs = DaoVendeur.getLesVendeurs(cnx);
             request.setAttribute("pLesRaces", lesRaces);
             request.setAttribute("pLesChevaux", lesChevaux);
+            request.setAttribute("pLesVendeurs", lesVendeurs);
             System.out.println("Nombre de chevaux récupérés : " + lesChevaux.size());
             this.getServletContext().getRequestDispatcher("/WEB-INF/views/cheval/add.jsp").forward(request, response);
         }
@@ -148,12 +150,16 @@ public class ChevalServlet extends HttpServlet {
                 }
 
             } catch (NumberFormatException e) {
-                request.setAttribute("message", "Erreur : la race sélectionnée n'est pas valide");
+                request.setAttribute("message", "Erreur : " + e.getMessage());
                 request.setAttribute("pLesRaces", DaoRace.getLesRaces(cnx));
+                request.setAttribute("pLesChevaux", DaoCheval.getLesChevaux(cnx));
+                request.setAttribute("pLesVendeurs", DaoVendeur.getLesVendeurs(cnx)); // ✅
                 this.getServletContext().getRequestDispatcher("/WEB-INF/views/cheval/add.jsp").forward(request, response);
             } catch (Exception e) {
                 request.setAttribute("message", "Erreur : " + e.getMessage());
                 request.setAttribute("pLesRaces", DaoRace.getLesRaces(cnx));
+                request.setAttribute("pLesChevaux", DaoCheval.getLesChevaux(cnx));
+                request.setAttribute("pLesVendeurs", DaoVendeur.getLesVendeurs(cnx)); // ✅
                 this.getServletContext().getRequestDispatcher("/WEB-INF/views/cheval/add.jsp").forward(request, response);
             }
         }

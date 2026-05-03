@@ -54,7 +54,7 @@ public class DaoCheval {
                 "FROM chevalcourse cc " +
                 "INNER JOIN cheval c ON cc.cheval_id = c.id " +
                 "INNER JOIN course co ON cc.course_id = co.id " +
-                "WHERE c.id = ? "        
+                "WHERE c.id = ? "
             );
             requeteSql.setInt(1, idCheval);
             
@@ -92,12 +92,15 @@ public class DaoCheval {
         Cheval cheval = new Cheval();
         try {
             requeteSql = cnx.prepareStatement(
-                "SELECT c.id as c_id, c.nom as c_nom, cpere.id as cpere_id, cpere.nom as cpere_nom, cmere.id as cmere_id, cmere.nom as cmere_nom, r.nom as r_nom, c.date_naissance as date_Naissance_nom " +
-                "FROM cheval c " +
-                "INNER JOIN race r ON c.race_id = r.id " +
-                "INNER JOIN cheval cpere ON c.pere_id = cpere.id " +
-                "INNER JOIN cheval cmere ON c.mere_id = cmere.id " +
-                "WHERE c.id = ? "
+                    "SELECT c.id as c_id, c.nom as c_nom, " +
+                            "cpere.id as cpere_id, cpere.nom as cpere_nom, " +
+                            "cmere.id as cmere_id, cmere.nom as cmere_nom, " +
+                            "r.nom as r_nom, c.date_naissance as date_naissance " +
+                            "FROM cheval c " +
+                            "LEFT JOIN race r ON c.race_id = r.id " +
+                            "LEFT JOIN cheval cpere ON c.pere_id = cpere.id " +
+                            "LEFT JOIN cheval cmere ON c.mere_id = cmere.id " +
+                            "WHERE c.id = ?"
             );
             requeteSql.setInt(1, idCheval);
             resultatRequete = requeteSql.executeQuery();
@@ -106,8 +109,8 @@ public class DaoCheval {
                 cheval = new Cheval();
                 cheval.setId(resultatRequete.getInt("c_id"));
                 cheval.setNom(resultatRequete.getString("c_nom"));
-                
-                java.sql.Date sqlDate = resultatRequete.getDate("date_Naissance_nom");
+
+                java.sql.Date sqlDate = resultatRequete.getDate("date_naissance");
                 if (sqlDate != null) {
                     cheval.setDateNaissance(sqlDate.toLocalDate());
                 }
@@ -164,10 +167,19 @@ public class DaoCheval {
         }
         
         requeteSql.setInt(8, cheval.getRace().getId());
-        
-        requeteSql.setInt(9, cheval.getChevalPere().getId());
-        
-        requeteSql.setInt(10, cheval.getChevalMere().getId());
+
+        if (cheval.getChevalPere() != null) {
+            requeteSql.setInt(9, cheval.getChevalPere().getId());
+        } else {
+            requeteSql.setNull(9, java.sql.Types.INTEGER);
+        }
+
+// Mère
+        if (cheval.getChevalMere() != null) {
+            requeteSql.setInt(10, cheval.getChevalMere().getId());
+        } else {
+            requeteSql.setNull(10, java.sql.Types.INTEGER);
+        }
         
         
         
