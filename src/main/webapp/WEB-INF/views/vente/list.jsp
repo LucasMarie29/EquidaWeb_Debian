@@ -2,6 +2,10 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.ArrayList" %>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -27,15 +31,7 @@
         </style>
     </head>
     <body>
-        <nav class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <a href='../ServletVente/list' class="navbar-brand">
-                        Système de gestion des ventes
-                    </a>
-                </div>
-            </div>
-        </nav>
+        <%@ include file="/WEB-INF/views/header.jsp" %>
 
         <div class="container special">
             <div class="header-actions">
@@ -66,6 +62,9 @@
                     </tbody>
                 </table>
             </div>
+            <a href="javascript:history.back()" class="btn btn-default">
+                <span class="glyphicon glyphicon-arrow-left"></span> Retour
+            </a>
         </div>
         
         <!-- Bootstrap JavaScript -->

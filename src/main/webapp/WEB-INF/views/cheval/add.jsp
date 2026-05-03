@@ -4,6 +4,9 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="model.Race" %>
 <%@ page import="java.util.ArrayList" %>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 
 <!DOCTYPE html>
 <html>
@@ -31,15 +34,7 @@
         </style>
     </head>
     <body>
-        <nav class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="<%= request.getContextPath() %>/cheval-servlet/list">
-                        Gestion des chevaux
-                    </a>
-                </div>
-            </div>
-        </nav>
+<%@ include file="/WEB-INF/views/header.jsp" %>
 
         <div class="container special">
             <div class="row">
@@ -61,7 +56,7 @@
                             <div class="form-group">
                                 <label for="pere" class="col-sm-3 control-label">Père</label>
                                 <div class="col-sm-9">
-                                    <select name="pere" id="pere" class="form-control">
+                                   <select name="pere_id" id="pere" class="form-control">
                                         <option value="">-- Aucun père --</option>
                                         <% 
                                             ArrayList<Cheval> lesPeres = (ArrayList<Cheval>) request.getAttribute("pLesChevaux");
@@ -79,7 +74,7 @@
                             <div class="form-group">
                                 <label for="mere" class="col-sm-3 control-label">Mère</label>
                                 <div class="col-sm-9">
-                                    <select name="mere" id="mere" class="form-control">
+                                    <select name="mere_id" id="mere" class="form-control">
                                         <option value="">-- Aucune mère --</option>
                                         <% 
                                             ArrayList<Cheval> lesMeres = (ArrayList<Cheval>) request.getAttribute("pLesChevaux");
@@ -93,35 +88,46 @@
                                 </div>
                             </div>
 
-                            
+                            <!-- Sexe -->
                             <div class="form-group">
-                                <label for="sexe" class="col-sm-3 control-label">Sexe</label>
+                                <label for="sexe" class="col-sm-3 control-label">Sexe *</label>
                                 <div class="col-sm-9">
-                                    <input type="text" name="sexe" id="sexe" class="form-control" required>
+                                    <select name="sexe" id="sexe" class="form-control" required>
+                                        <option value="">-- Sélectionner --</option>
+                                        <option value="M">Mâle</option>
+                                        <option value="F">Femelle</option>
+                                    </select>
                                 </div>
                             </div>
                             
                             <div class="form-group">
-                                <label for="codeSire" class="col-sm-3 control-label">Code sire</label>
+                                <label for="codeSire" class="col-sm-3 control-label">Code sire *</label>
                                 <div class="col-sm-9">
                                     <input type="text" name="codeSire" id="codeSire" class="form-control" required>
                                 </div>
                             </div>
-                            
+
+                            <!-- Taille -->
                             <div class="form-group">
-                                <label for="taille" class="col-sm-3 control-label">Taille</label>
+                                <label for="taille" class="col-sm-3 control-label">Taille (cm)</label>
                                 <div class="col-sm-9">
-                                    <input type="text" name="taille" id="taille" class="form-control" required>
+                                    <div class="input-group">
+                                        <input type="number" name="taille" id="taille" class="form-control" min="50" max="300" placeholder="ex: 165">
+                                        <span class="input-group-addon">cm</span>
+                                    </div>
                                 </div>
                             </div>
-                            
+
+                            <!-- Poids -->
                             <div class="form-group">
-                                <label for="poids" class="col-sm-3 control-label">Poids</label>
+                                <label for="poids" class="col-sm-3 control-label">Poids (kg)</label>
                                 <div class="col-sm-9">
-                                    <input type="text" name="poids" id="poids" class="form-control" required>
+                                    <div class="input-group">
+                                        <input type="number" name="poids" id="poids" class="form-control" min="50" max="1500" placeholder="ex: 500">
+                                        <span class="input-group-addon">kg</span>
+                                    </div>
                                 </div>
                             </div>
-                            
                             
                             <!-- Date de naissance -->
                             <div class="form-group">
@@ -136,7 +142,7 @@
                                 <label for="race" class="col-sm-3 control-label">Race *</label>
                                 <div class="col-sm-9">
                                     <select name="race" id="race" class="form-control" required>
-                                        <option value="">Sélectionnez une race</option>
+                                        <option value="">-- Sélectionnez une race --</option>
                                         <% ArrayList<Race> lesRaces = (ArrayList<Race>)request.getAttribute("pLesRaces");
                                            if (lesRaces != null) {
                                                for(Race race : lesRaces) { %>
@@ -147,25 +153,24 @@
                                     </select>
                                 </div>
                             </div>
-                                    
+
                             <!-- Vendeur -->
                             <div class="form-group">
-                               <label for="vendeur" class="col-sm-3 control-label">Vendeur</label>
-                               <div class="col-sm-9">
-                                   <select name="vendeur" id="vendeur" class="form-control" required>
-                                       <option value="">-- Sélectionnez un vendeur --</option>
-                                       <% 
-                                           List<Vendeur> lesVendeurs = (List<Vendeur>) request.getAttribute("pLesVendeurs");
-                                           if (lesVendeurs != null) {
-                                               for (Vendeur vendeur : lesVendeurs) { %>
-                                                   <option value="<%= vendeur.getId() %>"><%= vendeur.getNom() %></option>
-                                       <%      }
-                                           }
-                                       %>
-                                   </select>
-                               </div>
+                                <label for="vendeur" class="col-sm-3 control-label">Vendeur *</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" id="vendeur" name="vendeur" required>
+                                        <option value="">-- Sélectionner un vendeur --</option>
+                                        <%
+                                            ArrayList<Vendeur> lesVendeurs = (ArrayList<Vendeur>) request.getAttribute("pLesVendeurs");
+                                            if (lesVendeurs != null) {
+                                                for (Vendeur v : lesVendeurs) { %>
+                                                    <option value="<%= v.getId() %>"><%= v.getNom() %></option>
+                                        <%      }
+                                            }
+                                        %>
+                                    </select>
+                                </div>
                             </div>
-
 
                             <!-- Boutons -->
                             <div class="form-group">
