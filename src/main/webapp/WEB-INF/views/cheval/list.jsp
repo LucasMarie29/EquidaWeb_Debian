@@ -31,7 +31,7 @@
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
-                    <a href='../ServletCheval/list' class="navbar-brand">
+                    <a href='/equidaweb' class="navbar-brand">
                         Système de gestion des ventes aux enchères de chevaux
                     </a>
                 </div>
@@ -67,7 +67,11 @@
                     </tbody>
                 </table>
             </div>
+            <a href="javascript:history.back()" class="btn btn-default">
+                <span class="glyphicon glyphicon-arrow-left"></span> Retour
+            </a>
         </div>
+
         
         <!-- Bootstrap JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

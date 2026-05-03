@@ -42,7 +42,7 @@
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="<%= request.getContextPath() %>/cheval-servlet/list">
+                    <a class="navbar-brand" href="/equidaweb">
                         Gestion des chevaux
                     </a>
                 </div>

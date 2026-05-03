@@ -30,7 +30,7 @@
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
-                    <a href='../ServletVente/list' class="navbar-brand">
+                    <a href='/equidaweb' class="navbar-brand">
                         Système de gestion des ventes
                     </a>
                 </div>
@@ -66,6 +66,9 @@
                     </tbody>
                 </table>
             </div>
+            <a href="javascript:history.back()" class="btn btn-default">
+                <span class="glyphicon glyphicon-arrow-left"></span> Retour
+            </a>
         </div>
         
         <!-- Bootstrap JavaScript -->
