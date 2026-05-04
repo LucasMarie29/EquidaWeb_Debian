@@ -28,6 +28,7 @@ test\TestCheval.class
 model\Lot.class
 test\TestConnexionBdd.class
 test\TestVente.class
+database\DaoVendeur.class
 model\Race.class
 test\TestChevalVente.class
 test\TestChevalCourse.class
