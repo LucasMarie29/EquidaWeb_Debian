@@ -5,12 +5,14 @@ model\Cheval.class
 sio\equidaweb\resources\JakartaEE10Resource.class
 test\TestAcheteur.class
 model\CategVente.class
+database\DaoCategVente.class
 test\TestParent.class
 model\Course.class
 database\Connexionbdd.class
 model\Courriel.class
 servlet\VenteServlet.class
 model\Vente.class
+database\DaoLieu.class
 test\TestRace.class
 database\ConnexionServlet.class
 model\Pays.class

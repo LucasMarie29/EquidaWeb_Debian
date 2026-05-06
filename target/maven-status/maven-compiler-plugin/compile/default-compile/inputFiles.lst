@@ -1,3 +1,4 @@
+E:\SIO2\NetBeansProjects\EquidaWeb_Debian\src\main\java\database\DaoCategVente.java
 E:\SIO2\NetBeansProjects\EquidaWeb_Debian\src\main\java\model\Cheval.java
 E:\SIO2\NetBeansProjects\EquidaWeb_Debian\src\main\java\test\TestConnexionBdd.java
 E:\SIO2\NetBeansProjects\EquidaWeb_Debian\src\main\java\model\PieceJointe.java
@@ -17,6 +18,7 @@ E:\SIO2\NetBeansProjects\EquidaWeb_Debian\src\main\java\model\Course.java
 E:\SIO2\NetBeansProjects\EquidaWeb_Debian\src\main\java\test\TestVente.java
 E:\SIO2\NetBeansProjects\EquidaWeb_Debian\src\main\java\model\CategVente.java
 E:\SIO2\NetBeansProjects\EquidaWeb_Debian\src\main\java\database\Connexionbdd.java
+E:\SIO2\NetBeansProjects\EquidaWeb_Debian\src\main\java\database\DaoLieu.java
 E:\SIO2\NetBeansProjects\EquidaWeb_Debian\src\main\java\servlet\ChevalServlet.java
 E:\SIO2\NetBeansProjects\EquidaWeb_Debian\src\main\java\model\Client.java
 E:\SIO2\NetBeansProjects\EquidaWeb_Debian\src\main\java\test\TestAcheteur.java
