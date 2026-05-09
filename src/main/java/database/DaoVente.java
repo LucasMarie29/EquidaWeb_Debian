@@ -185,4 +185,51 @@ public class DaoVente {
         return false;
     }
 }
+
+    public static boolean modifierVente(Connection cnx, Vente vente) {
+        try {
+            requeteSql = cnx.prepareStatement(
+                "UPDATE vente SET nom=?, dateDebutVente=?, dateFinVente=?, dateDebutInscription=?, " +
+                "dateEnvoiMessage=?, objetMessage=?, corpsMessage=?, lieu_id=?, categvente_id=? " +
+                "WHERE id=?"
+            );
+            requeteSql.setString(1, vente.getNom());
+
+            requeteSql.setDate(2, vente.getDateDebutVente() != null ? new java.sql.Date(vente.getDateDebutVente().getTime()) : null);
+            requeteSql.setDate(3, vente.getDateFinVente() != null ? new java.sql.Date(vente.getDateFinVente().getTime()) : null);
+            requeteSql.setDate(4, vente.getDateDebutInscription() != null ? new java.sql.Date(vente.getDateDebutInscription().getTime()) : null);
+            requeteSql.setDate(5, vente.getDateEnvoiMessage() != null ? new java.sql.Date(vente.getDateEnvoiMessage().getTime()) : null);
+
+            requeteSql.setString(6, vente.getObjetMessage());
+            requeteSql.setString(7, vente.getCorpsMessage());
+            requeteSql.setInt(8, vente.getLieu().getId());
+
+            if (vente.getCategVente() != null) {
+                requeteSql.setInt(9, vente.getCategVente().getId());
+            } else {
+                requeteSql.setNull(9, java.sql.Types.INTEGER);
+            }
+
+            requeteSql.setInt(10, vente.getId());
+
+            return requeteSql.executeUpdate() == 1;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Erreur lors de la modification de la vente");
+            return false;
+        }
+    }
+
+    public static boolean supprimerVente(Connection cnx, int idVente) {
+        try {
+            requeteSql = cnx.prepareStatement("DELETE FROM vente WHERE id = ?");
+            requeteSql.setInt(1, idVente);
+            return requeteSql.executeUpdate() == 1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Erreur lors de la suppression de la vente");
+            return false;
+        }
+    }
 }

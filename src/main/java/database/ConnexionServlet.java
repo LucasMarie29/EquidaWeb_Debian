@@ -29,7 +29,7 @@ public class ConnexionServlet implements ServletContextListener {
                 cnx = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3307/equida","root","");
                 //sauvegarder la connexion dans le context
                 servletContext.setAttribute("connection",cnx);
-                System.out.println("Connexion opérationnelle" + "jdbc:mariadb://127.0.0.1:3306/equida");
+                System.out.println("Connexion opérationnelle" + "jdbc:mariadb://127.0.0.1:3307/equida");
             }
             catch (SQLException e)
             {
